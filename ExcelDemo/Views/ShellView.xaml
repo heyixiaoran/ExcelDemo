@@ -1,0 +1,101 @@
+<controls:MetroWindow x:Class="ExcelDemo.Views.ShellView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:cal="http://www.caliburnproject.org"
+                      xmlns:commons="clr-namespace:ExcelDemo.Commons"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:models="clr-namespace:ExcelDemo.Models"
+                      FontFamily="Microsoft YaHei"
+                      TitlebarHeight="40"
+                      WindowStartupLocation="CenterScreen"
+                      WindowState="Maximized">
+
+    <Border BorderBrush="DeepSkyBlue" BorderThickness="1">
+        <controls:MetroContentControl>
+            <controls:MetroTabControl>
+                <controls:MetroAnimatedTabControl>
+                    <controls:MetroTabItem Header="Header1">
+                        <Grid Margin="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="2" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Menu ItemsSource="{Binding MenuItems}">
+                                <Menu.ItemTemplate>
+                                    <DataTemplate>
+                                        <MenuItem Margin="-4,-2" Padding="-2">
+                                            <MenuItem.HeaderTemplate>
+                                                <HierarchicalDataTemplate>
+                                                    <StackPanel Height="25"
+                                                                Margin="-22,-2,-20,-2"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                        <Path Width="20"
+                                                              Height="20"
+                                                              Margin="0,0,3,0"
+                                                              Data="M19.833,0L32.5,0 32.5,19.833999 52.334,19.833999 52.334,32.500999 32.5,32.500999 32.5,52.333 19.833,52.333 19.833,32.500999 0,32.500999 0,19.833999 19.833,19.833999z"
+                                                              Fill="CornflowerBlue"
+                                                              Stretch="Uniform" />
+                                                        <TextBlock Height="20"
+                                                                   VerticalAlignment="Center"
+                                                                   Text="{Binding DataContext.HeaderName,
+                                                                                  RelativeSource={RelativeSource FindAncestor,
+                                                                                                                 AncestorType={x:Type MenuItem},
+                                                                                                                 AncestorLevel=1}}" />
+                                                    </StackPanel>
+                                                </HierarchicalDataTemplate>
+                                            </MenuItem.HeaderTemplate>
+                                        </MenuItem>
+                                    </DataTemplate>
+                                </Menu.ItemTemplate>
+                            </Menu>
+
+                            <Rectangle Grid.Row="1" Fill="LightGray" />
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="2" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <TreeView x:Name="TreeView"
+                                          Grid.Column="0"
+                                          ItemsSource="{Binding NodeCollection}"
+                                          cal:Message.Attach="[Event SelectedItemChanged] = [Action TreeNodeSelectedChanged($this,$eventArgs)]">
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate DataType="{x:Type models:TreeNode}" ItemsSource="{Binding TreeNodes}">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Path Width="18"
+                                                      Height="18"
+                                                      Margin="5,0"
+                                                      Data="M45.570068359375,16.919921875L27.47998046875,35.02001953125 18.4200439453125,25.9599609375 12.4000244140625,32 27.47998046875,47.0899658203125 51.6099853515625,22.9599609375z M32,0C49.6700439453125,0 64,14.3399658203125 64,32 64,49.669921875 49.6700439453125,64 32,64 14.340087890625,64 0,49.669921875 0,32 0,14.3399658203125 14.340087890625,0 32,0z"
+                                                      Fill="CornflowerBlue"
+                                                      Stretch="Uniform" />
+                                                <TextBlock Tag="{Binding}" Text="{Binding Title}" />
+                                            </StackPanel>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+
+                                <Rectangle Grid.Column="1" Fill="LightGray" />
+
+                                <DataGrid Grid.Column="2"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          SelectionUnit="FullRow"
+                                          Style="{StaticResource AzureDataGrid}"
+                                          commons:DataGridExtension.BindingColumns="{Binding DataGridColumns}" />
+                            </Grid>
+
+                        </Grid>
+                    </controls:MetroTabItem>
+                    <controls:MetroTabItem Header="Header2" />
+                </controls:MetroAnimatedTabControl>
+            </controls:MetroTabControl>
+        </controls:MetroContentControl>
+    </Border>
+
+</controls:MetroWindow>
